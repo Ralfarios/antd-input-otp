@@ -17,6 +17,10 @@
     "otp",
     "input"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ralfarios/antd-input-otp.git"
+  },
   "author": "Ralfarios",
   "license": "MIT",
   "devDependencies": {
