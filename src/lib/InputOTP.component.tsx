@@ -20,15 +20,17 @@ const InputOTPSingle: React.FC<InputProps> = ({ className, ...rest }) => {
 const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
   (
     {
-      className,
       disabled,
       inputClassName,
-      length = 6,
-      placeholder,
-      onChange,
       inputRegex,
+      inputStyle,
       inputType = "all",
+      length = 6,
+      onChange,
+      placeholder,
       value,
+      wrapperClassName,
+      wrapperStyle,
       ...rest
     },
     ref
@@ -48,7 +50,11 @@ const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
     }, [length]);
 
     return (
-      <div className={cx("input-otp", className)} ref={ref}>
+      <div
+        className={cx("input-otp", wrapperClassName)}
+        ref={ref}
+        style={wrapperStyle}
+      >
         {Array(makeLength)
           .fill(null)
           .map((_, idx) => (
@@ -62,6 +68,7 @@ const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
               onKeyDown={handleKeyDown}
               onKeyPress={handleKeyPress}
               className={inputClassName}
+              style={inputStyle}
               disabled={disabled}
               placeholder={
                 placeholder?.length === 1 ? placeholder : placeholder?.[idx]
