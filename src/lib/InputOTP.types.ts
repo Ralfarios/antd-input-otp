@@ -1,6 +1,7 @@
 import type { InputProps } from "antd";
 
-interface BaseInputOTPProps extends Omit<InputProps, "value" | "onChange"> {
+interface BaseInputOTPProps
+  extends Omit<InputProps, "value" | "onChange" | "className" | "style"> {
   disabled?: boolean;
   /** Classes for styling input field. */
   inputClassName?: InputProps["className"];
