@@ -2,10 +2,16 @@
 
 A custom input component for OTP (One Time Password) based on [Ant Design Input](https://ant.design/components/input) for React.
 
+![antd-input-otp](https://i.imgur.com/dVQyOmJ.gif)
+
+## Demo 🧪
+
+- [CodeSandbox](https://codesandbox.io/s/antd-input-otp-demo-1jmypp)
+
 ## Prerequisite ⭐
 
 - [Ant Design](https://ant.design/) >= 4.19.1
-- [React](https://react.dev) >= 16.0.0
+- [React](https://react.dev) >= 16.8.0
 
 ## Install 💻
 
@@ -19,7 +25,9 @@ A custom input component for OTP (One Time Password) based on [Ant Design Input]
 
 ## How to use 🪴
 
-Simply import like other antd's components as usual and call it. You can use it uncontrolled with `Form` from [Ant Design Form](https://ant.design/components/form) or use it controlled with React useState
+Simply import like other antd's components as usual and call it. You can use it uncontrolled with `Form` from [Ant Design Form](https://ant.design/components/form) or use it controlled with React useState.
+
+Keep in mind this component will return undefined or array of string.
 
 ### Uncontrolled
 
@@ -87,3 +95,31 @@ Keep in mind, the props will be extended to antd `InputProps`, which means prope
 | `value`            | `string`, `null`                                                                                        |               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `wrapperClassName` | `string`                                                                                                |               | Classes for styling input wrapper.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `wrapperStyle`     | `CSSProperties`                                                                                         |               | Inline style input wrapper.                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+
+## FAQ ❓
+
+### Q: What will this component return?
+
+A: This component will return an array of strings if erased or already filled, or undefined if this component remains untouched.
+
+### Q: Can I use it on Ant Design Form?
+
+A: Ofcourse, the best part is you don't need to setup anything. Just write and go!
+
+### Q: Ant Design Form is not my cup of tea, can I use it with useState instead?
+
+A: You bet! Use it like other input with onChange and value.
+
+### Q: So I'm using Ant Design Form and I want to add an error below it, but it's ugly. How to fix it?
+
+A: Interesting, first of all, add a class on your InputOTP's Form.Item. then add `text-align: center` on `.ant-form-item .ant-form-item-explain-error`.
+
+If you are using antd v5, be sure to wrap `.ant-form-item` with `:where()`, so it will become like this..
+
+```scss
+.your-classname:where(.ant-form-item) .ant-form-item-explain-error {
+  text-align: center;
+}
+```
+
+Having another question? Ask me on the github issue!
