@@ -12,3 +12,7 @@ Very first initial stable release. 🎉
 
 - `inputStyle`, `wrapperClassName` and `wrapperStyle` is working now.
 - Removing `className` and `style` props to prevent clash with input and wrapper className and style.
+
+## [1.0.2] 2023-17-05
+- Fix ES Module not found on Create React App
+- Update documentation
