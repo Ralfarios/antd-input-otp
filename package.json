@@ -1,6 +1,6 @@
 {
   "name": "antd-input-otp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An OTP Input Component based on Ant Design Component Library for React.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.es.js",
