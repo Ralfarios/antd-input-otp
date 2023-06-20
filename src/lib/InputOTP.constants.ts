@@ -6,8 +6,8 @@ export const kRegexDictionary: Record<
 > = {
   alphabet: /[^A-Za-z]/,
   "alphabet-numeric": /[\W_]/,
-  "alphabet-symbol": /\d/,
+  "alphabet-symbol": /[\d]|[^\S]/,
   numeric: /\D/,
-  "numeric-symbol": /[A-Za-z]/,
-  symbol: /[\W_]/,
+  "numeric-symbol": /[A-Za-z]|[^\S]/,
+  symbol: /[^\W_]|[^\S]/,
 };
