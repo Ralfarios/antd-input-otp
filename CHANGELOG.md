@@ -12,3 +12,10 @@ Very first initial stable release. 🎉
 
 - `inputStyle`, `wrapperClassName` and `wrapperStyle` is working now.
 - Removing `className` and `style` props to prevent clash with input and wrapper className and style.
+
+## [1.1.0] 2023-20-06
+
+- Added `autoFocus` props for better UX.
+- Added `inputRef` for you that want to goes hacky stuff.
+- Paste to the component is working now!
+- Some adjustment under the hood like changing from useRef to useState for storing the value.
