@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useState } from "react";
 
 import type { UseInputOTPProps } from "./InputOTP.types";
 import { kRegexDictionary } from "./InputOTP.constants";
@@ -7,8 +7,9 @@ export const useInputOTP = ({
   inputRegex,
   inputType,
   onChange,
+  length,
 }: UseInputOTPProps) => {
-  const otpValue = useRef<string[]>([]);
+  const [otpValue, setOtpValue] = useState<string[]>([]);
 
   const getSibling = (e: React.FormEvent<HTMLInputElement>) =>
     ({
@@ -44,24 +45,27 @@ export const useInputOTP = ({
     (e: React.FormEvent<HTMLInputElement>) => {
       const nextInput = getSibling(e).next;
       const currInput = e.currentTarget;
-      const currInputIdx = Number(
-        currInput?.id?.replace(/antd-input-otp-/, "")
+      const target = e?.target as HTMLElement;
+      const currInputIdx = Array.from(target?.parentNode!.children).indexOf(
+        target
       );
       const value: string = e.currentTarget?.value;
 
-      const newOtpValue = [...otpValue.current];
+      const newOtpValue = [...otpValue];
+
       if (currInputIdx !== null && currInputIdx !== undefined) {
         newOtpValue[currInputIdx] = value;
       }
-      otpValue.current = newOtpValue;
-      onChange?.(otpValue.current);
+
+      setOtpValue(newOtpValue);
+      onChange?.(newOtpValue);
 
       if (!nextInput || !currInput || !value) return;
 
       if (nextInput) nextInput.select();
       else if (!nextInput) currInput.blur();
     },
-    [onChange]
+    [onChange, otpValue]
   );
 
   // * This function is to make the field can be
@@ -89,11 +93,74 @@ export const useInputOTP = ({
     []
   );
 
+  const handlePaste = useCallback(
+    (e: React.ClipboardEvent<HTMLInputElement>) => {
+      e.preventDefault(); // * To prevent skip paste field
+      const target = e?.target as HTMLElement;
+      const currentInput = Array.from(target?.parentNode!.children);
+      const currentInputIdx = currentInput.indexOf(target);
+
+      const getClipboardData = e.clipboardData.getData("text");
+
+      // #region For checking clipboard value only exist number
+      const tester =
+        typeof inputRegex === "string" ? new RegExp(inputRegex) : inputRegex!;
+
+      if (
+        (inputType === "custom" &&
+          inputRegex &&
+          !tester.test(getClipboardData)) ||
+        (inputType &&
+          inputType !== "all" &&
+          inputType !== "custom" &&
+          kRegexDictionary[inputType].test(getClipboardData))
+      )
+        return;
+      // #endregion
+
+      const clipboardDataArray = getClipboardData
+        .split("")
+        .slice(0, length - currentInputIdx);
+      let currentValue = [...otpValue];
+
+      if (!currentValue || currentValue.length < 1)
+        currentValue = Array(length).fill(""); // * To fill empty value with empty string
+
+      // #region For replacing value with clipboard value
+      for (let i = 0; i < length; i++) {
+        if (clipboardDataArray[i])
+          currentValue[i + currentInputIdx] = clipboardDataArray[i];
+      }
+      // #endregion
+
+      setOtpValue(currentValue);
+      onChange?.(currentValue);
+
+      // #region For set which field should be focused
+      if (currentInput[clipboardDataArray.length + currentInputIdx]) {
+        (
+          currentInput[
+            clipboardDataArray.length + currentInputIdx
+          ] as HTMLInputElement
+        ).select();
+      } else {
+        (
+          currentInput[
+            clipboardDataArray.length + currentInputIdx - 1
+          ] as HTMLInputElement
+        ).focus();
+      }
+      // #endregion
+    },
+    [length, onChange, otpValue]
+  );
+
   return {
     handleChange,
     handleFocus,
     handleKeyDown,
     handleKeyPress,
+    handlePaste,
     otpValue,
   };
 };

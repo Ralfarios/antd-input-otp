@@ -1,4 +1,4 @@
 import InputOTP from "./InputOTP.component";
-import type { InputOTPProps } from "./InputOTP.types";
+import type { InputOTPProps, InputOTPRef } from "./InputOTP.types";
 
-export { InputOTP, InputOTPProps };
+export { InputOTP, type InputOTPProps, type InputOTPRef };
