@@ -1,27 +1,34 @@
 import React, { forwardRef, useMemo } from "react";
 
-import { Input, InputProps } from "antd";
+import { Input, InputProps, InputRef } from "antd";
 import cx from "classnames";
 
 import { useInputOTP } from "./InputOTP.hooks";
 import type { InputOTPProps } from "./InputOTP.types";
+
 import "./InputOTP.styles.css";
 
-const InputOTPSingle: React.FC<InputProps> = ({ className, ...rest }) => {
-  return (
-    <Input
-      className={cx("input-otp__field", className)}
-      maxLength={1}
-      {...rest}
-    />
-  );
-};
+const InputOTPSingle = forwardRef<InputRef, InputProps>(
+  ({ className, ...rest }, ref) => {
+    return (
+      <Input
+        className={cx("input-otp__field", className)}
+        maxLength={1}
+        ref={ref}
+        {...rest}
+      />
+    );
+  }
+);
 
 const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
   (
     {
+      autoFocus,
       disabled,
+      id,
       inputClassName,
+      inputRef = null,
       inputRegex,
       inputStyle,
       inputType = "all",
@@ -40,8 +47,9 @@ const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
       handleFocus,
       handleKeyDown,
       handleKeyPress,
+      handlePaste,
       otpValue,
-    } = useInputOTP({ inputRegex, inputType, onChange });
+    } = useInputOTP({ inputRegex, inputType, length, onChange });
 
     const makeLength = useMemo(() => {
       if (length < 2) return 2;
@@ -52,33 +60,45 @@ const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
     return (
       <div
         className={cx("input-otp", wrapperClassName)}
+        id={id}
         ref={ref}
         style={wrapperStyle}
       >
         {Array(makeLength)
           .fill(null)
-          .map((_, idx) => (
-            <InputOTPSingle
-              key={idx}
-              onFocus={handleFocus}
-              // onChange won't triggered when the field
-              // filled with same value, therefore using
-              // onInput.
-              onInput={handleChange}
-              onKeyDown={handleKeyDown}
-              onKeyPress={handleKeyPress}
-              className={inputClassName}
-              style={inputStyle}
-              disabled={disabled}
-              placeholder={
-                placeholder?.length === 1 ? placeholder : placeholder?.[idx]
-              }
-              value={value?.[idx] || otpValue.current?.[idx]}
-              {...rest}
-              // @Override
-              id={`antd-input-otp-${idx}`}
-            />
-          ))}
+          .map((_, idx) => {
+            return (
+              <InputOTPSingle
+                autoFocus={autoFocus && idx === 0}
+                key={idx}
+                onFocus={handleFocus}
+                // onChange won't triggered when the field
+                // filled with same value, therefore using
+                // onInput.
+                onInput={handleChange}
+                onPaste={handlePaste}
+                onKeyDown={handleKeyDown}
+                onKeyPress={handleKeyPress}
+                ref={(r) => {
+                  if (inputRef) {
+                    if (inputRef.current === null) {
+                      inputRef.current = [];
+                    }
+
+                    inputRef.current[idx] = r;
+                  }
+                }}
+                className={inputClassName}
+                style={inputStyle}
+                disabled={disabled}
+                placeholder={
+                  placeholder?.length === 1 ? placeholder : placeholder?.[idx]
+                }
+                value={value?.[idx] || otpValue?.[idx]}
+                {...rest}
+              />
+            );
+          })}
       </div>
     );
   }

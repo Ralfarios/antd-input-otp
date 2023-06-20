@@ -1,12 +1,20 @@
-import type { InputProps } from "antd";
+import type { InputProps, InputRef } from "antd";
 
 interface BaseInputOTPProps
   extends Omit<InputProps, "value" | "onChange" | "className" | "style"> {
+  /**
+   * Autofocus for the first field of OTP. If you want to make the second or third or even the last field autofocused, use `inputRef`.
+   */
+  autoFocus?: boolean;
   disabled?: boolean;
   /** Classes for styling input field. */
   inputClassName?: InputProps["className"];
   /** Inline style input field. */
   inputStyle?: InputProps["style"];
+  /**
+   * Reference for the input fields. Inside of the `current` should be array of `InputRef` from antd.
+   */
+  inputRef?: InputOTPRef;
   /**
    * Determine the total of your fields.
    *
@@ -93,6 +101,9 @@ export interface UseInputOTPProps {
   inputType: InputOTPProps["inputType"];
   inputRegex: InputOTPProps["inputRegex"];
   onChange: InputOTPProps["onChange"];
+  length: NonNullable<InputOTPProps["length"]>;
 }
 
 export type InputOTPProps = BaseInputType | CustomInputType;
+
+export type InputOTPRef = React.MutableRefObject<InputRef[] | null[] | null>;
