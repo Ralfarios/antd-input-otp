@@ -14,5 +14,13 @@ Very first initial stable release. 🎉
 - Removing `className` and `style` props to prevent clash with input and wrapper className and style.
 
 ## [1.0.2] 2023-17-05
+
 - Fix ES Module not found on Create React App
 - Update documentation
+
+## [1.1.0] 2023-20-06
+
+- Added `autoFocus` props for better UX.
+- Added `inputRef` for you that want to goes hacky stuff.
+- Paste to the component is working now!
+- Some adjustment under the hood like changing from useRef to useState for storing the value.
