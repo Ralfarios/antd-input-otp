@@ -24,3 +24,9 @@ Very first initial stable release. 🎉
 - Added `inputRef` for you that want to goes hacky stuff.
 - Paste to the component is working now!
 - Some adjustment under the hood like changing from useRef to useState for storing the value.
+
+## [1.1.1] 2023-11-09
+
+- Fixed backspace button behaviour.
+- Fixed enter button behaviour for submit.
+- Added `__EXPERIMENTAL_autoSubmit` for auto submit when the field is uncontrolled.
