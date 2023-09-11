@@ -4,6 +4,7 @@ import type { UseInputOTPProps } from "./InputOTP.types";
 import { kRegexDictionary } from "./InputOTP.constants";
 
 export const useInputOTP = ({
+  autoSubmit,
   inputRegex,
   inputType,
   onChange,
@@ -22,6 +23,9 @@ export const useInputOTP = ({
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       const tester =
         typeof inputRegex === "string" ? new RegExp(inputRegex) : inputRegex!;
+
+      // * For bypassing enter key for submit
+      if (e?.key === "Enter") return;
 
       if (
         (inputType === "custom" && inputRegex && !tester.test(e?.key)) ||
@@ -44,6 +48,7 @@ export const useInputOTP = ({
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       const nextInput = getSibling(e).next;
+      const prevInput = getSibling(e).prev;
       const currInput = e.currentTarget;
       const target = e?.target as HTMLElement;
       const currInputIdx = Array.from(target?.parentNode!.children).indexOf(
@@ -59,6 +64,19 @@ export const useInputOTP = ({
 
       setOtpValue(newOtpValue);
       onChange?.(newOtpValue);
+
+      // * To keep backspace pressed only once.
+      if ((e.nativeEvent as InputEvent).inputType === "deleteContentBackward")
+        prevInput?.select();
+
+      if (
+        autoSubmit &&
+        !nextInput &&
+        (e.nativeEvent as InputEvent).inputType !== "deleteContentBackward" &&
+        newOtpValue.join("").length === length
+      ) {
+        autoSubmit.submit();
+      }
 
       if (!nextInput || !currInput || !value) return;
 

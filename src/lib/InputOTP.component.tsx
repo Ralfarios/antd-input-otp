@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from "react";
+import React from "react";
 
 import { Input, InputProps, InputRef } from "antd";
 import cx from "classnames";
@@ -8,7 +8,7 @@ import type { InputOTPProps } from "./InputOTP.types";
 
 import "./InputOTP.styles.css";
 
-const InputOTPSingle = forwardRef<InputRef, InputProps>(
+const InputOTPSingle = React.forwardRef<InputRef, InputProps>(
   ({ className, ...rest }, ref) => {
     return (
       <Input
@@ -21,9 +21,10 @@ const InputOTPSingle = forwardRef<InputRef, InputProps>(
   }
 );
 
-const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
+const InputOTP = React.forwardRef<HTMLDivElement, InputOTPProps>(
   (
     {
+      __EXPERIMENTAL_autoSubmit,
       autoFocus,
       disabled,
       id,
@@ -42,6 +43,12 @@ const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
     },
     ref
   ) => {
+    const makeLength = React.useMemo(() => {
+      if (length < 2) return 2;
+      if (length > 16) return 16;
+      return length;
+    }, [length]);
+
     const {
       handleChange,
       handleFocus,
@@ -49,13 +56,13 @@ const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
       handleKeyPress,
       handlePaste,
       otpValue,
-    } = useInputOTP({ inputRegex, inputType, length, onChange });
-
-    const makeLength = useMemo(() => {
-      if (length < 2) return 2;
-      if (length > 16) return 16;
-      return length;
-    }, [length]);
+    } = useInputOTP({
+      autoSubmit: __EXPERIMENTAL_autoSubmit,
+      inputRegex,
+      inputType,
+      length: makeLength,
+      onChange,
+    });
 
     return (
       <div
