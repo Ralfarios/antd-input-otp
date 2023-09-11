@@ -1,4 +1,5 @@
 import type { InputProps, InputRef } from "antd";
+import type { FormInstance } from "antd/es/form/hooks/useForm";
 
 interface BaseInputOTPProps
   extends Omit<InputProps, "value" | "onChange" | "className" | "style"> {
@@ -6,6 +7,17 @@ interface BaseInputOTPProps
    * Autofocus for the first field of OTP. If you want to make the second or third or even the last field autofocused, use `inputRef`.
    */
   autoFocus?: boolean;
+  /**
+   * WARNING -- EXPERIMENTAL
+   * -----------------------
+   * Auto submit when the value is fully filled.
+   *
+   * This feature is still under development, you can use this only for uncontrolled fields, such as antd form.
+   * > DO NOT USE IT WITH `useState`.
+   *
+   * The default value is `false`.
+   */
+  __EXPERIMENTAL_autoSubmit?: FormInstance;
   disabled?: boolean;
   /** Classes for styling input field. */
   inputClassName?: InputProps["className"];
@@ -98,6 +110,7 @@ interface CustomInputType extends BaseInputOTPProps {
 }
 
 export interface UseInputOTPProps {
+  autoSubmit?: InputOTPProps["__EXPERIMENTAL_autoSubmit"];
   inputType: InputOTPProps["inputType"];
   inputRegex: InputOTPProps["inputRegex"];
   onChange: InputOTPProps["onChange"];
