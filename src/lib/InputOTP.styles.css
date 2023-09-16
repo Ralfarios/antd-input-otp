@@ -1,14 +1,14 @@
 .input-otp {
   display: flex;
-  justify-content: center;
   gap: 1em;
+  justify-content: center;
 }
 
 .input-otp__field {
-  height: 64px;
-  max-width: 44px;
-  width: 100%;
   font-size: 20px;
   font-weight: 700;
+  height: 64px;
+  max-width: 44px;
   text-align: center;
+  width: 100%;
 }

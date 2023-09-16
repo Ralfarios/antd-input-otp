@@ -1,24 +1,24 @@
-import React from "react";
+import React from 'react';
 
-import { Input, InputProps, InputRef } from "antd";
-import cx from "classnames";
+import { Input, type InputProps, type InputRef } from 'antd';
+import cx from 'classnames';
 
-import { useInputOTP } from "./InputOTP.hooks";
-import type { InputOTPProps } from "./InputOTP.types";
+import { useInputOTP } from './InputOTP.hooks';
+import type { InputOTPProps } from './InputOTP.types';
 
-import "./InputOTP.styles.css";
+import './InputOTP.styles.css';
 
 const InputOTPSingle = React.forwardRef<InputRef, InputProps>(
   ({ className, ...rest }, ref) => {
     return (
       <Input
-        className={cx("input-otp__field", className)}
+        className={cx('input-otp__field', className)}
         maxLength={1}
         ref={ref}
         {...rest}
       />
     );
-  }
+  },
 );
 
 const InputOTP = React.forwardRef<HTMLDivElement, InputOTPProps>(
@@ -32,7 +32,7 @@ const InputOTP = React.forwardRef<HTMLDivElement, InputOTPProps>(
       inputRef = null,
       inputRegex,
       inputStyle,
-      inputType = "all",
+      inputType = 'all',
       length = 6,
       onChange,
       placeholder,
@@ -41,7 +41,7 @@ const InputOTP = React.forwardRef<HTMLDivElement, InputOTPProps>(
       wrapperStyle,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const makeLength = React.useMemo(() => {
       if (length < 2) return 2;
@@ -66,11 +66,10 @@ const InputOTP = React.forwardRef<HTMLDivElement, InputOTPProps>(
 
     return (
       <div
-        className={cx("input-otp", wrapperClassName)}
+        className={cx('input-otp', wrapperClassName)}
         id={id}
         ref={ref}
-        style={wrapperStyle}
-      >
+        style={wrapperStyle}>
         {Array(makeLength)
           .fill(null)
           .map((_, idx) => {
@@ -108,7 +107,7 @@ const InputOTP = React.forwardRef<HTMLDivElement, InputOTPProps>(
           })}
       </div>
     );
-  }
+  },
 );
 
 export default InputOTP;
