@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
-import type { UseInputOTPProps } from "./InputOTP.types";
-import { kRegexDictionary } from "./InputOTP.constants";
+import { kRegexDictionary } from './InputOTP.constants';
+import type { UseInputOTPProps } from './InputOTP.types';
 
 export const useInputOTP = ({
   autoSubmit,
@@ -16,27 +16,27 @@ export const useInputOTP = ({
     ({
       prev: e.currentTarget.previousElementSibling,
       next: e.currentTarget.nextElementSibling,
-    } as Record<"prev" | "next", (EventTarget & HTMLInputElement) | null>);
+    }) as Record<'prev' | 'next', (EventTarget & HTMLInputElement) | null>;
 
   // * This function is to keep field other than number.
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       const tester =
-        typeof inputRegex === "string" ? new RegExp(inputRegex) : inputRegex!;
+        typeof inputRegex === 'string' ? new RegExp(inputRegex) : inputRegex!;
 
       // * For bypassing enter key for submit
-      if (e?.key === "Enter") return;
+      if (e?.key === 'Enter') return;
 
       if (
-        (inputType === "custom" && inputRegex && !tester.test(e?.key)) ||
+        (inputType === 'custom' && inputRegex && !tester.test(e?.key)) ||
         (inputType &&
-          inputType !== "all" &&
-          inputType !== "custom" &&
+          inputType !== 'all' &&
+          inputType !== 'custom' &&
           kRegexDictionary[inputType].test(e?.key))
       )
         return e.preventDefault();
     },
-    [inputRegex, inputType]
+    [inputRegex, inputType],
   );
 
   // * Comes from antd to make field select all value
@@ -52,7 +52,7 @@ export const useInputOTP = ({
       const currInput = e.currentTarget;
       const target = e?.target as HTMLElement;
       const currInputIdx = Array.from(target?.parentNode!.children).indexOf(
-        target
+        target,
       );
       const value: string = e.currentTarget?.value;
 
@@ -66,14 +66,14 @@ export const useInputOTP = ({
       onChange?.(newOtpValue);
 
       // * To keep backspace pressed only once.
-      if ((e.nativeEvent as InputEvent).inputType === "deleteContentBackward")
+      if ((e.nativeEvent as InputEvent).inputType === 'deleteContentBackward')
         prevInput?.select();
 
       if (
         autoSubmit &&
         !nextInput &&
-        (e.nativeEvent as InputEvent).inputType !== "deleteContentBackward" &&
-        newOtpValue.join("").length === length
+        (e.nativeEvent as InputEvent).inputType !== 'deleteContentBackward' &&
+        newOtpValue.join('').length === length
       ) {
         autoSubmit.submit();
       }
@@ -83,7 +83,7 @@ export const useInputOTP = ({
       if (nextInput) nextInput.select();
       else if (!nextInput) currInput.blur();
     },
-    [onChange, otpValue]
+    [onChange, otpValue],
   );
 
   // * This function is to make the field can be
@@ -91,14 +91,14 @@ export const useInputOTP = ({
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       switch (e.key) {
-        case "Backspace":
+        case 'Backspace':
           if (e.currentTarget.value) break;
         // falls through
-        case "ArrowLeft":
+        case 'ArrowLeft':
           e.preventDefault();
           getSibling(e).prev?.select();
           break;
-        case "ArrowRight":
+        case 'ArrowRight':
           e.preventDefault();
           getSibling(e).next?.select();
           break;
@@ -108,7 +108,7 @@ export const useInputOTP = ({
 
       return;
     },
-    []
+    [],
   );
 
   const handlePaste = useCallback(
@@ -118,31 +118,31 @@ export const useInputOTP = ({
       const currentInput = Array.from(target?.parentNode!.children);
       const currentInputIdx = currentInput.indexOf(target);
 
-      const getClipboardData = e.clipboardData.getData("text");
+      const getClipboardData = e.clipboardData.getData('text');
 
       // #region For checking clipboard value only exist number
       const tester =
-        typeof inputRegex === "string" ? new RegExp(inputRegex) : inputRegex!;
+        typeof inputRegex === 'string' ? new RegExp(inputRegex) : inputRegex!;
 
       if (
-        (inputType === "custom" &&
+        (inputType === 'custom' &&
           inputRegex &&
           !tester.test(getClipboardData)) ||
         (inputType &&
-          inputType !== "all" &&
-          inputType !== "custom" &&
+          inputType !== 'all' &&
+          inputType !== 'custom' &&
           kRegexDictionary[inputType].test(getClipboardData))
       )
         return;
       // #endregion
 
       const clipboardDataArray = getClipboardData
-        .split("")
+        .split('')
         .slice(0, length - currentInputIdx);
       let currentValue = [...otpValue];
 
       if (!currentValue || currentValue.length < 1)
-        currentValue = Array(length).fill(""); // * To fill empty value with empty string
+        currentValue = Array(length).fill(''); // * To fill empty value with empty string
 
       // #region For replacing value with clipboard value
       for (let i = 0; i < length; i++) {
@@ -170,7 +170,7 @@ export const useInputOTP = ({
       }
       // #endregion
     },
-    [length, onChange, otpValue]
+    [length, onChange, otpValue],
   );
 
   return {
