@@ -1,8 +1,8 @@
-import type { InputProps, InputRef } from "antd";
-import type { FormInstance } from "antd/es/form/hooks/useForm";
+import type { InputProps, InputRef } from 'antd';
+import type { FormInstance } from 'antd/es/form/hooks/useForm';
 
 interface BaseInputOTPProps
-  extends Omit<InputProps, "value" | "onChange" | "className" | "style"> {
+  extends Omit<InputProps, 'value' | 'onChange' | 'className' | 'style'> {
   /**
    * Autofocus for the first field of OTP. If you want to make the second or third or even the last field autofocused, use `inputRef`.
    */
@@ -20,9 +20,9 @@ interface BaseInputOTPProps
   __EXPERIMENTAL_autoSubmit?: FormInstance;
   disabled?: boolean;
   /** Classes for styling input field. */
-  inputClassName?: InputProps["className"];
+  inputClassName?: InputProps['className'];
   /** Inline style input field. */
-  inputStyle?: InputProps["style"];
+  inputStyle?: InputProps['style'];
   /**
    * Reference for the input fields. Inside of the `current` should be array of `InputRef` from antd.
    */
@@ -63,13 +63,13 @@ interface BaseInputType extends BaseInputOTPProps {
    * The default value is unvalidated which means `all`.
    */
   inputType?:
-    | "numeric"
-    | "alphabet"
-    | "symbol"
-    | "alphabet-symbol"
-    | "alphabet-numeric"
-    | "numeric-symbol"
-    | "all";
+    | 'numeric'
+    | 'alphabet'
+    | 'symbol'
+    | 'alphabet-symbol'
+    | 'alphabet-numeric'
+    | 'numeric-symbol'
+    | 'all';
   /**
    * If you choose `custom` as `inputType`, `inputRegex` will be mandatory.
    *
@@ -93,7 +93,7 @@ interface CustomInputType extends BaseInputOTPProps {
    *
    * The default value is unvalidated which means `all`.
    */
-  inputType: "custom";
+  inputType: 'custom';
   /**
    * If you choose `custom` as `inputType`, `inputRegex` will be mandatory.
    *
@@ -110,11 +110,11 @@ interface CustomInputType extends BaseInputOTPProps {
 }
 
 export interface UseInputOTPProps {
-  autoSubmit?: InputOTPProps["__EXPERIMENTAL_autoSubmit"];
-  inputType: InputOTPProps["inputType"];
-  inputRegex: InputOTPProps["inputRegex"];
-  onChange: InputOTPProps["onChange"];
-  length: NonNullable<InputOTPProps["length"]>;
+  autoSubmit?: InputOTPProps['__EXPERIMENTAL_autoSubmit'];
+  inputType: InputOTPProps['inputType'];
+  inputRegex: InputOTPProps['inputRegex'];
+  onChange: InputOTPProps['onChange'];
+  length: NonNullable<InputOTPProps['length']>;
 }
 
 export type InputOTPProps = BaseInputType | CustomInputType;

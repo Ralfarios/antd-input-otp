@@ -45,9 +45,9 @@ const InputOTPPage = () => {
   return (
     <Form onFinish={handleFinish} form={form}>
       <Form.Item label="OTP" name="otp">
-        <InputOTP 
+        <InputOTP
           __EXPERIMENTAL_autoSubmit={form} // If you want to auto submit when all fields is filled, use this, otherwise, don't use it!
-          inputType="numeric" 
+          inputType="numeric"
         />
       </Form.Item>
 
