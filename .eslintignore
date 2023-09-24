@@ -3,3 +3,9 @@ dist
 
 # Node Modules
 node_modules
+
+# Configs
+babel.config.js
+
+# Testing
+coverage

@@ -69,7 +69,8 @@ const InputOTP = React.forwardRef<HTMLDivElement, InputOTPProps>(
         className={cx('input-otp', wrapperClassName)}
         id={id}
         ref={ref}
-        style={wrapperStyle}>
+        style={wrapperStyle}
+        data-testid="inputOTP">
         {Array(makeLength)
           .fill(null)
           .map((_, idx) => {
