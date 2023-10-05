@@ -6,3 +6,4 @@ node_modules
 
 # Configs
 babel.config.js
+commitlint.config.cjs
