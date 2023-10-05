@@ -1,0 +1,42 @@
+name: 'Feature Request 🪶'
+description: Request a new feature.
+title: '[FEAT] - <TITLE>'
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 'Is your feature request related to a problem?'
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: 'What solution do you like?'
+      description: 'For requesting a feature, you gotta tell me'
+    validations:
+      required: true
+  - type: textarea
+    id: alternative
+    attributes:
+      label: 'What alternative solution do you have?'
+      description: 'Maybe, just maybe if I can\'t fulfilled your request, you have another solution?'
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: 'Tell me the additional context if there is any!'
+    validations:
+      required: false
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 'Screenshots'
+      description: If applicable, add screenshots to help explain your problem.
+      value: |
+        ![DESCRIPTION](LINK.png)
+      render: bash
+    validations:
+      required: false
+  
