@@ -13,11 +13,6 @@ Very first initial stable release. 🎉
 - `inputStyle`, `wrapperClassName` and `wrapperStyle` is working now.
 - Removing `className` and `style` props to prevent clash with input and wrapper className and style.
 
-## [1.0.2] 2023-17-05
-
-- Fix ES Module not found on Create React App
-- Update documentation
-
 ## [1.1.0] 2023-20-06
 
 - Added `autoFocus` props for better UX.
@@ -30,3 +25,9 @@ Very first initial stable release. 🎉
 - Fixed backspace button behaviour.
 - Fixed enter button behaviour for submit.
 - Added `__EXPERIMENTAL_autoSubmit` for auto submit when the field is uncontrolled.
+
+## [2.0.0] 2023-05-10
+
+- Enhance logic under the hood.
+- Added autoSubmit props, now can be used for both controlled and uncontrolled field.
+- Fix reset field for controlled field by using setState.
