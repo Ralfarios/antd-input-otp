@@ -146,30 +146,3 @@ If you are using antd v5, be sure to wrap `.ant-form-item` with `:where()`, so i
 ```
 
 Having another question? Ask me on the github issue!
-
-## Become a Contributor! ✨
-
-Sometimes, I face an issue that too long to fix because I need to learn the best way to solve it so this package will run flawlessly in your project. However, it would be great if you could help me by contributing to this project.
-
-1. Clone this repo and then check out the `development` branch by using
-
-   > `git checkout development`.
-
-2. I want to keep this repo clean and tracked, so please create a new branch from the development branch to get on your work.
-   The convention is `<flag>/<name-of-your-branch>`. Here's the table for the flag.
-
-| Flag     | Description                                               |
-| -------- | --------------------------------------------------------- |
-| feat     | A new Feature                                             |
-| fix      | For Bugfix or Hotfix                                      |
-| test     | Adding missing tests or correcting existing tests         |
-| chore    | Other changes that don't modify src or test files         |
-| refactor | A code change that neither fixes a bug nor adds a feature |
-| revert   | Reverts a previous commit                                 |
-| docs     | documentation only changes                                |
-
-for example: `feat/adding-cool-feature`.
-
-3. After you are done, create a pull request and add me as your review. You can merge it after I approve it.
-
-And that's it. Or, if you have a bug to report but don't know how to fix it, just tell me on the GitHub issue. I'll happily answer.
