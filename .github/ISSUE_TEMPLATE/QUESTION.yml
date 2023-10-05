@@ -1,0 +1,11 @@
+name: 'Question ❓'
+description: How do you do something with this package?.
+title: '[QUESTION] - <TITLE>'
+labels: ['queston']
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: 'Tell me your problem! What do you want to achieve?'
+    validations:
+      required: true

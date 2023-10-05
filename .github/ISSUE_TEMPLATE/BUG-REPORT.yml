@@ -1,0 +1,114 @@
+name: 'Bug Report 🐞'
+description: Create a new ticket for a bug.
+title: '[BUG] - <TITLE>'
+labels: ['bug']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 'Description'
+      description: Please enter an explicit description of your issue
+      placeholder: Short and explicit description of your incident...
+    validations:
+      required: true
+  - type: input
+    id: reprod-url
+    attributes:
+      label: 'Reproduction URL'
+      description: Please enter your CodeSandbox or GitHub URL to provide a reproduction of the issue
+      placeholder: ex. https://codesandbox.io/s/<SOMETHING>
+    validations:
+      required: false
+  - type: textarea
+    id: reprod
+    attributes:
+      label: 'Reproduction steps'
+      description: Please enter an explicit description of your issue
+      value: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 'Screenshots'
+      description: If applicable, add screenshots to help explain your problem.
+      value: |
+        ![DESCRIPTION](LINK.png)
+      render: bash
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: 'Logs'
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: bash
+    validations:
+      required: false
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: 'Browsers'
+      description: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Opera
+    validations:
+      required: false
+  - type: dropdown
+    id: os
+    attributes:
+      label: 'OS'
+      description: What is the impacted environment?
+      multiple: true
+      options:
+        - Windows
+        - Linux
+        - Mac
+    validations:
+      required: false
+  - type: dropdown
+    id: build_tool
+    attributes:
+      label: 'Build Tool'
+      description: What build tool are you using?
+      multiple: true
+      options:
+        - Create React App
+        - Vite
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: is_typescript
+    attributes:
+      label: 'Are you using a TypeScript?'
+      multiple: false
+      options:
+        - 'Yes'
+        - 'No'
+    validations:
+      required: true
+  - type: input
+    id: antd_version
+    attributes:
+      label: 'Ant Design Version'
+      placeholder: ex. 5.9.1
+    validations:
+      required: true
+  - type: input
+    id: react_version
+    attributes:
+      label: 'React Version'
+      placeholder: ex. 18.0.0
+    validations:
+      required: true
