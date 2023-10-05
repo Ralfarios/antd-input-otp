@@ -28,7 +28,7 @@ export default [
       },
       {
         file: pkg.module,
-        format: 'esm',
+        format: 'es',
         sourcemap: true,
       },
     ],
@@ -51,7 +51,7 @@ export default [
     ],
   },
   {
-    input: 'dist/types/index.d.ts',
+    input: 'dist/esm/types/index.d.ts',
     output: [{ file: pkg.types, format: 'esm' }],
     plugins: [dts()],
     external: [/\.css$/],
