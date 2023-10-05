@@ -89,18 +89,6 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: build_tool
-    attributes:
-      label: 'Build Tool'
-      description: What build tool are you using?
-      multiple: true
-      options:
-        - Create React App
-        - Vite
-        - Other
-    validations:
-      required: true
-  - type: dropdown
     id: is_typescript
     attributes:
       label: 'Are you using a TypeScript?'
