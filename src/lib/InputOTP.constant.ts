@@ -1,7 +1,7 @@
-import type { UseInputOTPProps } from './InputOTP.types';
+import type { InputOTPProps } from './InputOTP.type';
 
 export const kRegexDictionary: Record<
-  NonNullable<Exclude<UseInputOTPProps['inputType'], 'all' | 'custom'>>,
+  NonNullable<Exclude<InputOTPProps['inputType'], 'all' | 'custom'>>,
   RegExp
 > = {
   alphabet: /[^A-Za-z]/,

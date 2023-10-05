@@ -25,3 +25,9 @@ Very first initial stable release. 🎉
 - Fixed backspace button behaviour.
 - Fixed enter button behaviour for submit.
 - Added `__EXPERIMENTAL_autoSubmit` for auto submit when the field is uncontrolled.
+
+## [2.0.0] 2023-05-10
+
+- Enhance logic under the hood.
+- Added autoSubmit props, now can be used for both controlled and uncontrolled field.
+- Fix reset field for controlled field by using setState.
