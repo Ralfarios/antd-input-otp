@@ -10,52 +10,50 @@ import dts from 'rollup-plugin-dts';
 import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 
+import pkg from './package.json' assert { type: 'json' };
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/** @type {import('rollup').RollupOptions} */
 export default [
   {
     input: './src/index.ts',
+    external: ['react-dom'],
     output: [
       {
-        file: 'dist/cjs/index.js',
+        file: pkg.main,
         format: 'cjs',
         sourcemap: true,
       },
       {
-        file: 'dist/esm/index.es.js',
+        file: pkg.module,
         format: 'es',
         sourcemap: true,
       },
     ],
     plugins: [
-      postcss({ plugins: [], minimize: true }),
-      commonjs(),
-      external(),
-      resolve(),
-      typescript({
-        tsconfig: './tsconfig.json',
-        exclude: [
-          '**/__test__',
-          '**/*.test.ts',
-          '**/*.test.tsx',
-          'jest.config.ts',
-        ],
-      }),
       getBabelOutputPlugin({
         configFile: path.resolve(__dirname, 'babel.config.js'),
       }),
-      terser({ compress: { drop_console: true, drop_debugger: true } }),
+      external(),
+      resolve(),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        sourceMap: true,
+        inlineSources: true,
+      }),
+      postcss({ minimize: true }),
+      terser({
+        compress: { drop_console: true, drop_debugger: true },
+      }),
     ],
   },
   {
-    input: 'dist/esm/types/index.d.ts',
-    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-    plugins: [
-      dts({
-        tsconfig: './tsconfig.json',
-      }),
-    ],
+    input: 'dist/types/index.d.ts',
+    output: [{ file: pkg.types, format: 'esm' }],
+    plugins: [dts()],
     external: [/\.css$/],
   },
 ];

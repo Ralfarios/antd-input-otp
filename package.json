@@ -1,14 +1,18 @@
 {
   "name": "antd-input-otp",
-  "version": "1.0.1",
+  "version": "2.0.3",
   "description": "An OTP Input Component based on Ant Design Component Library for React.",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.es.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "scripts": {
-    "build": "rollup -c",
+    "clean": "npm run clean:win && npm run clean:lin",
+    "clean:win": "node -e \"if (process.platform === 'win32') process.exit(1)\" || , if exist dist rmdir /Q /S dist",
+    "clean:lin": "node -e \"if (process.platform !== 'win32') process.exit(1)\" || rm -rf dist",
+    "build": "npm run clean && rollup -c",
     "patch": "npm version patch",
     "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix --ignore-path ./.eslintignore --report-unused-disable-directives --max-warnings 0",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky install"
   },
   "keywords": [
     "antd",
@@ -26,9 +30,12 @@
   "author": "Ralfarios",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.22.19",
-    "@babel/preset-env": "^7.22.15",
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/cz-commitlint": "^17.7.2",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^25.0.2",
     "@rollup/plugin-node-resolve": "^15.1.0",
@@ -47,6 +54,7 @@
     "babel-jest": "^29.7.0",
     "babel-plugin-jsx-remove-data-test-id": "^3.0.0",
     "classnames": "^2.3.2",
+    "commitizen": "^4.3.0",
     "eslint": "^8.49.0",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-react": "^7.33.2",
@@ -54,7 +62,8 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-mock": "^29.7.0",
-    "postcss": "^8.4.23",
+    "husky": "^8.0.3",
+    "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "rollup": "^3.26.2",
     "rollup-plugin-dts": "^5.3.0",
@@ -67,8 +76,7 @@
   },
   "peerDependencies": {
     "antd": ">=4.19.0",
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": ">=16.8.0"
   },
   "files": [
     "dist"
