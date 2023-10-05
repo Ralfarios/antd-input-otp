@@ -20,7 +20,7 @@ body:
     id: alternative
     attributes:
       label: 'What alternative solution do you have?'
-      description: 'Maybe, just maybe if I can\'t fulfilled your request, you have another solution?'
+      description: "Maybe, just maybe if I can't fulfilled your request, you have another solution?"
     validations:
       required: false
   - type: textarea
@@ -39,4 +39,3 @@ body:
       render: bash
     validations:
       required: false
-  
