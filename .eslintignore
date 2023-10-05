@@ -3,3 +3,6 @@ dist
 
 # Node Modules
 node_modules
+
+# Configs
+babel.config.js
