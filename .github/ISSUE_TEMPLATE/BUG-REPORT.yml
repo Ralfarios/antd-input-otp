@@ -106,8 +106,8 @@ body:
       label: 'Are you using a TypeScript?'
       multiple: false
       options:
-        - Yes
-        - No
+        - 'Yes'
+        - 'No'
     validations:
       required: true
   - type: input
