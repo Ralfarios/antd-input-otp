@@ -8,7 +8,7 @@
     "clean": "npm run clean:win && npm run clean:lin",
     "clean:win": "node -e \"if (process.platform === 'win32') process.exit(1)\" || , if exist dist rmdir /Q /S dist",
     "clean:lin": "node -e \"if (process.platform !== 'win32') process.exit(1)\" || rm -rf dist",
-    "build": "npm run clean && rollup -c",
+    "build": "rollup -c",
     "patch": "npm version patch",
     "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix --ignore-path ./.eslintignore --report-unused-disable-directives --max-warnings 0",
     "test": "echo \"Error: no test specified\" && exit 1",
