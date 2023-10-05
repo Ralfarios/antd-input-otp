@@ -1,13 +1,18 @@
 {
   "name": "antd-input-otp",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "An OTP Input Component based on Ant Design Component Library for React.",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.es.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "scripts": {
-    "build": "rollup -c",
+    "clean": "npm run clean:win && npm run clean:lin",
+    "clean:win": "node -e \"if (process.platform === 'win32') process.exit(1)\" || , if exist dist rmdir /Q /S dist",
+    "clean:lin": "node -e \"if (process.platform !== 'win32') process.exit(1)\" || rm -rf dist",
+    "build": "npm run clean && rollup -c",
     "patch": "npm version patch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix --ignore-path ./.eslintignore --report-unused-disable-directives --max-warnings 0",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "keywords": [
     "antd",
@@ -25,15 +30,30 @@
   "author": "Ralfarios",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/cz-commitlint": "^17.7.2",
+    "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^25.0.2",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/node": "^20.1.0",
     "@types/react": "^18.2.6",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
     "antd": "^5.9.0",
     "classnames": "^2.3.2",
-    "postcss": "^8.4.23",
+    "commitizen": "^4.3.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-react": "^7.33.2",
+    "husky": "^8.0.3",
+    "postcss": "^8.4.31",
+    "prettier": "^3.0.3",
     "rollup": "^3.26.2",
     "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -43,8 +63,7 @@
   },
   "peerDependencies": {
     "antd": ">=4.19.0",
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": ">=16.8.0"
   },
   "files": [
     "dist"

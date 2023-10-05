@@ -1,0 +1,9 @@
+# Build Files
+dist
+
+# Node Modules
+node_modules
+
+# Configs
+babel.config.js
+commitlint.config.cjs
