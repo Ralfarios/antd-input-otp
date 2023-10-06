@@ -12,7 +12,7 @@ import { InputRef } from 'antd';
 import '@testing-library/jest-dom';
 
 import { InputOTP, InputOTPProps } from '../../lib';
-import { useInputOTP } from '../../lib/InputOTP.hooks';
+import { useInputOTP } from '../../lib/InputOTP.hook';
 
 const inputOTPDataTestID = 'inputOTP';
 
@@ -130,9 +130,12 @@ describe('Test Input OTP Component', () => {
     const { result } = renderHook(() =>
       useInputOTP({
         inputType: 'all',
-        length: 6,
+        autoSubmit: null,
+        isPreserveFocus: false,
+        fieldLength: 6,
         inputRegex: undefined,
         onChange: jest.fn(),
+        value: null,
       }),
     );
 
@@ -141,7 +144,7 @@ describe('Test Input OTP Component', () => {
     Array.from(inputs).forEach((v, i) => {
       if ((v as HTMLInputElement).value) {
         if (value === undefined) value = '';
-        value += (v as HTMLInputElement).value || result.current.otpValue?.[i];
+        value += (v as HTMLInputElement).value || result.current.otp?.[i];
       }
     });
 
