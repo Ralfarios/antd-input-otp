@@ -6,4 +6,7 @@ node_modules
 
 # Configs
 babel.config.js
+
+# Testing
+coverage
 commitlint.config.cjs

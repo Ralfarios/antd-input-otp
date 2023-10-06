@@ -3,3 +3,6 @@ dist
 
 *.log
 src/**.js
+package-lock.json
+
+coverage
