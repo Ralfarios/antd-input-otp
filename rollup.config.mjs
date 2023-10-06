@@ -43,6 +43,12 @@ export default [
         tsconfig: './tsconfig.json',
         sourceMap: true,
         inlineSources: true,
+        exclude: [
+          '**/__test__',
+          '**/*.test.ts',
+          '**/*.test.tsx',
+          'jest.config.ts',
+        ],
       }),
       postcss({ minimize: true }),
       terser({
