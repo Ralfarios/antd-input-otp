@@ -3,7 +3,11 @@ import { forwardRef, memo, useCallback, useState } from 'react';
 import { Input, type InputProps, type InputRef } from 'antd';
 import cx from 'classnames';
 
-import type { InputOTPProps, TAutoSubmit } from './InputOTP.type';
+import type {
+  BaseInputOTPProps,
+  InputOTPProps,
+  TAutoSubmit,
+} from './InputOTP.type';
 import {
   getCurrentIndex,
   getCurrentInput,
@@ -15,17 +19,23 @@ import {
 
 import './InputOTP.style.css';
 
+type SingleInputOTPProps = InputProps &
+  Pick<BaseInputOTPProps, 'getSingleInput'> & { indexComponent: number };
+
 const SingleInputOTP = memo(
-  forwardRef<InputRef, InputProps>(({ className, ...rest }, ref) => {
-    return (
-      <Input
-        className={cx('input-otp__field', className)}
-        ref={ref}
-        maxLength={1}
-        {...rest}
-      />
-    );
-  }),
+  forwardRef<InputRef, SingleInputOTPProps>(
+    ({ className, indexComponent, getSingleInput, ...rest }, ref) => {
+      const InputComponent = getSingleInput?.(indexComponent) ?? Input;
+      return (
+        <InputComponent
+          className={cx('input-otp__field', className)}
+          ref={ref}
+          maxLength={1}
+          {...rest}
+        />
+      );
+    },
+  ),
 );
 
 const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>((props, ref) => {
@@ -220,6 +230,7 @@ const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>((props, ref) => {
         .map((_, idx) => {
           return (
             <SingleInputOTP
+              indexComponent={idx}
               autoFocus={autoFocus && idx === 0}
               className={inputClassName}
               disabled={disabled}

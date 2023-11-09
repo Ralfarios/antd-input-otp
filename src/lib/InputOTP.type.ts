@@ -18,7 +18,7 @@ type TInputRegex<T extends 'custom' | 'standard'> = T extends 'custom'
 export type TAutoSubmit<T extends 'uncontrolled' | 'controlled'> =
   T extends 'uncontrolled' ? FormInstance : (value: string[]) => void;
 
-interface BaseInputOTPProps
+export interface BaseInputOTPProps
   extends Omit<
     InputProps,
     'className' | 'form' | 'onChange' | 'style' | 'value'
@@ -110,6 +110,25 @@ interface BaseInputOTPProps
   wrapperClassName?: string;
   /** Inline style input wrapper. */
   wrapperStyle?: React.CSSProperties;
+
+  /**
+   * `getSingleInput` is a function that returns a component type for rendering each input field within the OTP (One Time Password) component.
+   * This function is called with the index of the input field and should return a component type, which will be used as the input component for that field.
+   * It allows for extensive customization of the input fields, enabling the integration of additional styling, logic, or third-party input components.
+   *
+   * The returned component type should be a function or class component that accepts InputProps, which will be applied to the input field.
+   *
+   * @param index - The index of the current input field.
+   * @returns A React component type that will be used to render the input field.
+   *
+   * @example
+   * ```tsx
+   * <InputOTP
+   *   getSingleInput={(index) => CustomAntInput} // CustomAntInput is a React component that accepts InputProps
+   * />
+   * ```
+   **/
+  getSingleInput?: (index: number) => React.ComponentType<InputProps>;
 }
 
 interface CustomInputType extends BaseInputOTPProps {
