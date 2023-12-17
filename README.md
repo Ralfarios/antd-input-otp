@@ -1,6 +1,3 @@
-+ [![cov](https://Ralfarios.github.io/antd-input-otp/badges/coverage.svg)](https://github.com/Ralfarios/antd-input-otp/actions)
-
-
 # antd-input-otp 📱
 
 A custom input component for OTP (One Time Password) based on [Ant Design Input](https://ant.design/components/input) for React.
