@@ -12,7 +12,8 @@
     "patch": "npm version patch",
     "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix --ignore-path ./.eslintignore --report-unused-disable-directives --max-warnings 0",
     "test": "jest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "coverage": "jest --coverage --coverageReporters=\"json-summary\""
   },
   "keywords": [
     "antd",
