@@ -15,7 +15,6 @@ export const useInputOTP = ({
   inputRegex,
   inputType,
   isPreserveFocus,
-  length,
   onChange,
   value,
 }: UseInputOTPProps) => {
@@ -137,15 +136,15 @@ export const useInputOTP = ({
 
       const clipboardDataArray = getClipboardData
         .split('')
-        .slice(0, length - currentIndex);
+        .slice(0, fieldLength - currentIndex);
 
       const value = handleChange(event, (currentValue) => {
         // * To fill empty value with empty string
         if (!currentValue || currentValue.length < 1)
-          currentValue = Array(length).fill('');
+          currentValue = Array(fieldLength).fill('');
 
         // * For replacing value with clipboard value
-        for (let i = 0; i < length; i++) {
+        for (let i = 0; i < fieldLength; i++) {
           if (clipboardDataArray[i])
             currentValue[i + currentIndex] = clipboardDataArray[i];
         }
@@ -172,7 +171,7 @@ export const useInputOTP = ({
         else (autoSubmit as TAutoSubmit<'controlled'>)(value);
       }
     },
-    [autoSubmit, fieldLength, handleChange, inputRegex, inputType, length],
+    [autoSubmit, fieldLength, handleChange, inputRegex, inputType, fieldLength],
   );
   // #endregion
 
