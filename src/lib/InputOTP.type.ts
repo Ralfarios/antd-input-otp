@@ -130,6 +130,7 @@ export interface UseInputOTPProps {
   inputRegex: InputOTPProps['inputRegex'];
   inputType: NonNullable<InputOTPProps['inputType']>;
   isPreserveFocus: InputOTPProps['isPreserveFocus'];
+  length: NonNullable<InputOTPProps['length']>;
   onChange: InputOTPProps['onChange'];
   value: InputOTPProps['value'];
 }

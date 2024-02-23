@@ -61,6 +61,7 @@ const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>((props, ref) => {
     inputRegex,
     inputType,
     isPreserveFocus,
+    length: fieldLength,
     onChange,
     value,
   });

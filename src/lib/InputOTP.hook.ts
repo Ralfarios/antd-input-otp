@@ -15,6 +15,7 @@ export const useInputOTP = ({
   inputRegex,
   inputType,
   isPreserveFocus,
+  length,
   onChange,
   value,
 }: UseInputOTPProps) => {
