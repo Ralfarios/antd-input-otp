@@ -124,16 +124,6 @@ interface StandardInputType extends BaseInputOTPProps {
 
 export type InputOTPProps = StandardInputType | CustomInputType;
 
-export interface UseInputOTPProps {
-  autoSubmit: InputOTPProps['autoSubmit'];
-  fieldLength: InputOTPProps['length'];
-  inputRegex: InputOTPProps['inputRegex'];
-  inputType: NonNullable<InputOTPProps['inputType']>;
-  isPreserveFocus: InputOTPProps['isPreserveFocus'];
-  onChange: InputOTPProps['onChange'];
-  value: InputOTPProps['value'];
-}
-
 // #region Type for Utils
 export type TGetSibling = Record<
   'nextTarget' | 'prevTarget',

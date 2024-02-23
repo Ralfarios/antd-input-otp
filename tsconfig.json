@@ -19,7 +19,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["node", "jest", "@testing-library/jest-dom"],
 
     /* Type Checking */
     "strict": true,

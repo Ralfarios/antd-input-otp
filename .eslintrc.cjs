@@ -31,7 +31,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', 'import'],
   rules: {
-    quotes: ['error', 'single', { avoidEscape: true }],
+    quotes: ['error', 'single'],
     semi: ['error', 'always'],
     '@typescript-eslint/no-unused-vars': 'warn',
     'react/display-name': 'off',
