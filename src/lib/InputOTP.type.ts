@@ -126,7 +126,7 @@ export type InputOTPProps = StandardInputType | CustomInputType;
 
 export interface UseInputOTPProps {
   autoSubmit: InputOTPProps['autoSubmit'];
-  fieldLength: InputOTPProps['length'];
+  fieldLength: NonNullable<InputOTPProps['length']>;
   inputRegex: InputOTPProps['inputRegex'];
   inputType: NonNullable<InputOTPProps['inputType']>;
   isPreserveFocus: InputOTPProps['isPreserveFocus'];
