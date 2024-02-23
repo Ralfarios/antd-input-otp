@@ -11,8 +11,9 @@
     "build": "npm run clean && rollup -c",
     "patch": "npm version patch",
     "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix --ignore-path ./.eslintignore --report-unused-disable-directives --max-warnings 0",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "test": "jest",
+    "prepare": "husky install",
+    "coverage": "jest --coverage --coverageReporters=\"json-summary\""
   },
   "keywords": [
     "antd",
