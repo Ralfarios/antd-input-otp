@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import type { TAutoSubmit, UseInputOTPProps } from './InputOTP.type';
+import type { UseInputOTPProps } from './InputOTP.type';
 import {
   getCurrentIndex,
   getCurrentInput,
@@ -8,6 +8,35 @@ import {
   isFormInstance,
   isNotTheCharacter,
 } from './InputOTP.util';
+
+// #region Handler helper
+const handleAutoSubmit = (
+  autoSubmit: UseInputOTPProps['autoSubmit'],
+  value: string[],
+) => {
+  if (isFormInstance(autoSubmit)) autoSubmit.submit();
+  else autoSubmit?.(value);
+};
+
+const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+  e.currentTarget.select();
+};
+
+const handleFieldChange =
+  (currentIndex: number, clipboardDataArray: string[], fieldLength: number) =>
+  (currentValue: string[]) => {
+    // * To fill empty value with empty string
+    if (!currentValue || currentValue.length < 1)
+      currentValue = Array(fieldLength).fill('');
+
+    // * For replacing value with clipboard value
+    for (let i = 0; i < fieldLength; i++) {
+      if (clipboardDataArray[i])
+        currentValue[i + currentIndex] = clipboardDataArray[i];
+    }
+    return currentValue;
+  };
+// #endregion
 
 export const useInputOTP = ({
   autoSubmit,
@@ -20,54 +49,44 @@ export const useInputOTP = ({
 }: UseInputOTPProps) => {
   const [otp, setOtp] = useState<string[]>([]);
 
-  // #region Select all value when focused
-  const handleFocus = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
-      event.currentTarget.select();
-    },
-    [],
-  );
-  // #endregion
-
   // #region Handle changing value
   const handleChange = useCallback(
     (
-      event: React.FormEvent<HTMLInputElement>,
-      onChangeProcess?: (currentValue: string[]) => void,
+      e: React.FormEvent<HTMLInputElement>,
+      callback?: (currentValue: string[]) => void,
     ) => {
-      if (!value || value.join('').length < 1) setOtp([]);
+      const currentValue = onChange ? value : otp;
+      const currentIndex = getCurrentIndex(e);
+      const newOtpValue = [...(currentValue ?? [])];
+      newOtpValue[currentIndex] = e.currentTarget.value;
 
-      const currentIndex = getCurrentIndex(event);
-      const newOtpValue = [...(value || [])];
-      newOtpValue[currentIndex] = event.currentTarget.value;
+      if (!currentValue || currentValue.join('').length < 1) setOtp([]);
 
-      onChangeProcess?.(newOtpValue);
-      onChange?.(newOtpValue);
+      callback?.(newOtpValue);
+      // * When field is without controller (value and onChange props) its value need to be stored on local value
+      onChange ? onChange(newOtpValue) : setOtp(newOtpValue);
 
       return newOtpValue;
     },
-    [onChange, value],
+    [onChange, otp, value],
   );
   // #endregion
 
   // #region Handle input, auto submit and preserved focus
   const handleInput = useCallback(
-    (event: React.FormEvent<HTMLInputElement>) => {
-      const { nextTarget, prevTarget } = getSibling(event);
-      const currentTarget = event.currentTarget;
+    (e: React.FormEvent<HTMLInputElement>) => {
+      const { nextTarget, prevTarget } = getSibling(e);
+      const currentTarget = e.currentTarget;
 
-      const value = handleChange(event);
+      const value = handleChange(e);
       const isValueLengthMatch = value.join('').length === fieldLength;
 
-      const { inputType } = event.nativeEvent as InputEvent;
+      const { inputType } = e.nativeEvent as InputEvent;
       const isInsertText = inputType === 'insertText';
       const isNotNextTarget = isInsertText && !nextTarget;
 
-      if (isNotNextTarget && autoSubmit && isValueLengthMatch) {
-        if (isFormInstance(autoSubmit as TAutoSubmit<'uncontrolled'>))
-          (autoSubmit as TAutoSubmit<'uncontrolled'>).submit();
-        else (autoSubmit as TAutoSubmit<'controlled'>)(value);
-      }
+      if (isNotNextTarget && autoSubmit && isValueLengthMatch)
+        handleAutoSubmit(autoSubmit, value);
 
       if (isNotNextTarget && !isPreserveFocus) return currentTarget.blur();
       if (isInsertText) return nextTarget?.select();
@@ -82,10 +101,10 @@ export const useInputOTP = ({
   // #region Handling disable keys
   // TODO: Implement these on handleKeyDown since onKeyPress will be deprecated.
   const handleKeyPress = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event?.key === 'Enter') return;
-      if (isNotTheCharacter({ inputRegex, inputType, value: event?.key }))
-        return event.preventDefault();
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e?.key === 'Enter' || e?.metaKey) return;
+      if (isNotTheCharacter({ inputRegex, inputType, value: e?.key }))
+        return e.preventDefault();
     },
     [inputRegex, inputType],
   );
@@ -93,20 +112,20 @@ export const useInputOTP = ({
 
   // #region Handling Arrow Left and Right, also Backspace when value is empty
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
-      const { nextTarget, prevTarget } = getSibling(event);
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      const { nextTarget, prevTarget } = getSibling(e);
 
-      switch (event.key) {
+      switch (e.key) {
         case 'Backspace':
-          if (event.currentTarget.value) break;
+          if (e.currentTarget.value) break;
         // * This block only work when the value in the field doesn't exist
         // falls through
         case 'ArrowLeft':
-          event.preventDefault();
+          e.preventDefault();
           prevTarget?.select();
           break;
         case 'ArrowRight':
-          event.preventDefault();
+          e.preventDefault();
           nextTarget?.select();
           break;
         default:
@@ -119,13 +138,13 @@ export const useInputOTP = ({
 
   // #region Handling Paste value
   const handlePaste = useCallback(
-    (event: React.ClipboardEvent<HTMLInputElement>) => {
-      event.preventDefault();
+    (e: React.ClipboardEvent<HTMLInputElement>) => {
+      e.preventDefault();
 
-      const currentIndex = getCurrentIndex(event);
-      const currentInput = getCurrentInput(event);
+      const currentIndex = getCurrentIndex(e);
+      const currentInput = getCurrentInput(e);
 
-      const getClipboardData = event.clipboardData.getData('text');
+      const getClipboardData = e.clipboardData.getData('text');
       const regexText = isNotTheCharacter({
         inputRegex,
         inputType,
@@ -138,40 +157,27 @@ export const useInputOTP = ({
         .split('')
         .slice(0, fieldLength - currentIndex);
 
-      const value = handleChange(event, (currentValue) => {
-        // * To fill empty value with empty string
-        if (!currentValue || currentValue.length < 1)
-          currentValue = Array(fieldLength).fill('');
+      const value = handleChange(
+        e,
+        handleFieldChange(currentIndex, clipboardDataArray, fieldLength),
+      );
 
-        // * For replacing value with clipboard value
-        for (let i = 0; i < fieldLength; i++) {
-          if (clipboardDataArray[i])
-            currentValue[i + currentIndex] = clipboardDataArray[i];
+      const nextIndex = clipboardDataArray.length + currentIndex;
+      const nextInputElement = (currentInput[nextIndex] ||
+        currentInput[nextIndex - 1]) as HTMLInputElement;
+
+      if (nextInputElement) {
+        if (nextIndex === currentIndex) {
+          nextInputElement.select();
+        } else {
+          nextInputElement.focus();
         }
-      });
-
-      if (currentInput[clipboardDataArray.length + currentIndex]) {
-        (
-          currentInput[
-            clipboardDataArray.length + currentIndex
-          ] as HTMLInputElement
-        ).select();
-      } else {
-        (
-          currentInput[
-            clipboardDataArray.length + currentIndex - 1
-          ] as HTMLInputElement
-        ).focus();
       }
 
       const isValueLengthMatch = value.join('').length === fieldLength;
-      if (autoSubmit && isValueLengthMatch) {
-        if (isFormInstance(autoSubmit as TAutoSubmit<'uncontrolled'>))
-          (autoSubmit as TAutoSubmit<'uncontrolled'>).submit();
-        else (autoSubmit as TAutoSubmit<'controlled'>)(value);
-      }
+      if (autoSubmit && isValueLengthMatch) handleAutoSubmit(autoSubmit, value);
     },
-    [autoSubmit, fieldLength, handleChange, inputRegex, inputType, fieldLength],
+    [inputRegex, inputType, fieldLength, handleChange, autoSubmit],
   );
   // #endregion
 
