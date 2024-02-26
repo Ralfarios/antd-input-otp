@@ -1,11 +1,4 @@
-import {
-  useCallback,
-  useState,
-  type ClipboardEvent,
-  type FocusEvent,
-  type FormEvent,
-  type KeyboardEvent,
-} from 'react';
+import { useCallback, useState } from 'react';
 
 import type { UseInputOTPProps } from './InputOTP.type';
 import {
@@ -25,7 +18,7 @@ const handleAutoSubmit = (
   else autoSubmit?.(value);
 };
 
-const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
+const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
   e.currentTarget.select();
 };
 
@@ -59,7 +52,7 @@ export const useInputOTP = ({
   // #region Handle changing value
   const handleChange = useCallback(
     (
-      e: FormEvent<HTMLInputElement>,
+      e: React.FormEvent<HTMLInputElement>,
       callback?: (currentValue: string[]) => void,
     ) => {
       const currentValue = onChange ? value : otp;
@@ -81,7 +74,7 @@ export const useInputOTP = ({
 
   // #region Handle input, auto submit and preserved focus
   const handleInput = useCallback(
-    (e: FormEvent<HTMLInputElement>) => {
+    (e: React.FormEvent<HTMLInputElement>) => {
       const { nextTarget, prevTarget } = getSibling(e);
       const currentTarget = e.currentTarget;
 
@@ -108,7 +101,7 @@ export const useInputOTP = ({
   // #region Handling disable keys
   // TODO: Implement these on handleKeyDown since onKeyPress will be deprecated.
   const handleKeyPress = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>) => {
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e?.key === 'Enter') return;
       if (isNotTheCharacter({ inputRegex, inputType, value: e?.key }))
         return e.preventDefault();
@@ -118,31 +111,34 @@ export const useInputOTP = ({
   // #endregion
 
   // #region Handling Arrow Left and Right, also Backspace when value is empty
-  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    const { nextTarget, prevTarget } = getSibling(e);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      const { nextTarget, prevTarget } = getSibling(e);
 
-    switch (e.key) {
-      case 'Backspace':
-        if (e.currentTarget.value) break;
-      // * This block only work when the value in the field doesn't exist
-      // falls through
-      case 'ArrowLeft':
-        e.preventDefault();
-        prevTarget?.select();
-        break;
-      case 'ArrowRight':
-        e.preventDefault();
-        nextTarget?.select();
-        break;
-      default:
-        break;
-    }
-  }, []);
+      switch (e.key) {
+        case 'Backspace':
+          if (e.currentTarget.value) break;
+        // * This block only work when the value in the field doesn't exist
+        // falls through
+        case 'ArrowLeft':
+          e.preventDefault();
+          prevTarget?.select();
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          nextTarget?.select();
+          break;
+        default:
+          break;
+      }
+    },
+    [],
+  );
   // #endregion
 
   // #region Handling Paste value
   const handlePaste = useCallback(
-    (e: ClipboardEvent<HTMLInputElement>) => {
+    (e: React.ClipboardEvent<HTMLInputElement>) => {
       e.preventDefault();
 
       const currentIndex = getCurrentIndex(e);
