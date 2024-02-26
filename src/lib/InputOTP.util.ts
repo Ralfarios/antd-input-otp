@@ -1,7 +1,9 @@
-import type { FormInstance } from 'antd';
-
 import { kRegexDictionary } from './InputOTP.constant';
-import type { TGetSibling, TIsNotTheCharacter } from './InputOTP.type';
+import type {
+  TAutoSubmit,
+  TGetSibling,
+  TIsNotTheCharacter,
+} from './InputOTP.type';
 
 export const getSibling = ({
   currentTarget,
@@ -49,8 +51,8 @@ export const makeLength = (length: number) => {
 };
 
 export const isFormInstance = (
-  data: FormInstance | (() => void) | undefined,
-): data is FormInstance => {
+  data?: TAutoSubmit<'uncontrolled'> | TAutoSubmit<'controlled'> | null,
+): data is TAutoSubmit<'uncontrolled'> => {
   if (!data) return false;
   return 'submit' in data;
 };
