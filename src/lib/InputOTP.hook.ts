@@ -102,7 +102,7 @@ export const useInputOTP = ({
   // TODO: Implement these on handleKeyDown since onKeyPress will be deprecated.
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e?.key === 'Enter') return;
+      if (e?.key === 'Enter' || e?.metaKey) return;
       if (isNotTheCharacter({ inputRegex, inputType, value: e?.key }))
         return e.preventDefault();
     },
